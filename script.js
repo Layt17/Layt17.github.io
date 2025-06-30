@@ -72,7 +72,7 @@ canvas.addEventListener("click", (e) => {
   clickCount++;
 
   ctx.beginPath();
-  ctx.arc(car.x, car.y, car.size, 0, 2 * Math.PI);
+  ctx.arc(car.x, car.y, car.size / 2, 0, 2 * Math.PI);
 
   wives.push({ x: e.clientX, y: e.clientY, maxR: 50, currentR: 1 });
 
@@ -86,9 +86,9 @@ canvas.addEventListener("click", (e) => {
   }
 
   //to do one change
-  if (car.size = 50) {
-    car.image = invearionCarImeage;
-  }
+  // if (car.size = 50) {
+  //   car.image = invearionCarImeage;
+  // }
 });
 
 window.addEventListener("keyup", (e) => {
