@@ -19,40 +19,32 @@ fireImage.src = "./src/images/fire.png";
 
 const mutationCarClickCount = 1;
 
-ctx.width = 10;
-ctx.height = 10;
-const player = {
-  x: canvas.width / 2,
-  y: canvas.height / 2,
-  size: 10,
-  speed: 4,
-  color: "#5cf802",
-  radii: 50,
-};
+canvas.width = window.innerWidth * 0.8;
+canvas.height = window.innerHeight * 0.8;
+
+const diffWidthOneSide = (window.innerWidth - canvas.width) / 2;
+const diffHeightOneSide = (window.innerHeight - canvas.height) / 2;
+
+// const player = {
+//   x: canvas.width / 2,
+//   y: canvas.height / 2,
+//   size: 10,
+//   speed: 4,
+//   color: "#5cf802",
+//   radii: 50,
+// };
 
 const car = {
   image: carImeageEast,
   x: canvas.width / 2,
   y: canvas.height / 2,
-  speedRight: 7,
-  speedLeft: 4,
-  speed: 5,
-  size: 40,
+  speed: canvas.width * 0.01,
+  size: canvas.width * 0.1,
 };
 
 const wives = [];
 
 let clickCount = 0;
-function waveAnimation(x, y) {
-  for (let i = 0; i < 100; i++) {
-    ctx.beginPath();
-    ctx.arc(car.x, car.y, i, 0, 2 * Math.PI);
-    ctx.strokeStyle = "#7aec08";
-    ctx.stroke();
-    update();
-  }
-  // ctx.arc(car.x, car.y, 0, 0, 2 * Math.PI);
-}
 
 // Обработка ввода
 const keys = {
@@ -74,10 +66,13 @@ canvas.addEventListener("click", (e) => {
   ctx.beginPath();
   ctx.arc(car.x, car.y, car.size / 2, 0, 2 * Math.PI);
 
-  wives.push({ x: e.clientX, y: e.clientY, maxR: 50, currentR: 1 });
+  const x = e.clientX - diffWidthOneSide;
+  const y = e.clientY - diffHeightOneSide;
+
+  wives.push({ x, y, maxR: 50, currentR: 1 });
 
   if (clickCount == mutationCarClickCount) {
-    if (ctx.isPointInPath(e.clientX, e.clientY)) {
+    if (ctx.isPointInPath(x, y)) {
       car.size += 2;
       scoreElement.innerHTML = car.size;
       update();
@@ -111,7 +106,12 @@ function update() {
   } else if (keys.ArrowRight && car.x + car.size / 2 < canvas.width) {
     car.x += car.speed;
     car.image = carImeageEast;
-  } else if (keys.ArrowUp || keys.ArrowDown || keys.ArrowLeft || keys.ArrowRight) {
+  } else if (
+    keys.ArrowUp ||
+    keys.ArrowDown ||
+    keys.ArrowLeft ||
+    keys.ArrowRight
+  ) {
     car.image = fireImage;
   }
 }
